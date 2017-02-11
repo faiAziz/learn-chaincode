@@ -58,9 +58,9 @@
   	} else if function == "write" {
   		return t.write(stub, args)
   	}
- +	else if function == "update" {
- +		return t.update(stub, args)	
- +	}
+ 	else if function == "update" {
+ 		return t.update(stub, args)	
+ 	}
   	fmt.Println("invoke did not find func: " + function)
   
   	return nil, errors.New("Received unknown function invocation: " + function)
@@ -98,25 +98,25 @@
   	return nil, nil
   }
   
- +// update - invoke function to update value of an existing key
- +func (t *SimpleChaincode) update(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
- +	var key, value string
- +	var err error
- +	fmt.Println("running update()")
- +
- +	if len(args) != 2 {
- +		return nil, errors.New("Incorrect number of arguments. Expecting 2. name of the key and value to update")
- +	}
- +
- +	key = args[0] //rename for funsies
- +	value = args[1]
- +	err = stub.PutState(key, []byte(value)) //write the variable into the chaincode state
- +	if err != nil {
- +		return nil, err
- +	}
- +	return nil, nil
- +}
- +
+ // update - invoke function to update value of an existing key
+ func (t *SimpleChaincode) update(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+ 	var key, value string
+ 	var err error
+ 	fmt.Println("running update()")
+ 
+ 	if len(args) != 2 {
+ 		return nil, errors.New("Incorrect number of arguments. Expecting 2. name of the key and value to update")
+ 	}
+ 
+ 	key = args[0] //rename for funsies
+ 	value = args[1]
+ 	err = stub.PutState(key, []byte(value)) //write the variable into the chaincode state
+ 	if err != nil {
+ 		return nil, err
+ 	}
+ 	return nil, nil
+ }
+ 
   // read - query function to read key/value pair
   func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
   	var key, jsonResp string
